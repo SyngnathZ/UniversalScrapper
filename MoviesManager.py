@@ -20,11 +20,12 @@ def incorrectformat_MV(dir, filename):
     namelist = []
     namelist.append(filename.split('.'))  # 将文件名按照.符号进行分割
 
-    if len(namelist[0]) == 2:  # 如果文件名是用空格分隔
-        namelist[0][0] = namelist[0][0].split(' ')  # 将文件名按照空格进行分割
-        namelist[0][0].append(namelist[0][1])  # 将最后后缀加上
-        del namelist[0][1]
-        namelist = [token for st in namelist for token in st]
+    if len(namelist[0][0].split(' ')) >= 2:  # 如果文件名是用空格分隔
+        namelist[0][0] = filename.split(' ')  # 将文件名按照空格进行分割
+        namelist[0][0][-1] = namelist[0][0][-1][:-4]  # 删除被分割出来的文件格式名
+        namelist[0][0].append(filename[-3:])  # 将最后后缀加上文件格式名
+        del namelist[0][1:]  # 删除多余的list
+        namelist = [token for st in namelist for token in st]  # 对结果降维
 
     # 文件年份判断操作
     i = 0
