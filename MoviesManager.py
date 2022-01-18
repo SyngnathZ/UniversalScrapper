@@ -54,15 +54,22 @@ def incorrectformat_MV(dir, filename):
     replace_filename(dir, filename, filename, ".".join(namelist[0]))  # 进入更名步骤
 
 
-def replace_filename(dir, file_name, oldPartName, newPartName, Mode=True):
-    if Mode:
-        os.rename(os.path.join(dir, file_name),
-                  os.path.join(dir, file_name.replace(oldPartName, newPartName)))  # 进行部分替换
-        print('new file name is {0}'.format(file_name.replace(oldPartName, newPartName)))  # 输出替换后的名字
-    else:
-        os.rename(os.path.join(dir, file_name),
-                  os.path.join(dir, file_name.replace(oldPartName, newPartName + oldPartName)))  # 进行部分替换
-        print('new file name is {0}'.format(file_name.replace(oldPartName, newPartName + oldPartName)))  # 输出替换后的名字
+def replace_filename(dir, file_name, oldPartName, newPartName, Mode=True, err_counter=0):
+    try:
+        if Mode:
+            os.rename(os.path.join(dir, file_name),
+                      os.path.join(dir, file_name.replace(oldPartName, newPartName)))  # 进行部分替换
+            print('new file name is {0}'.format(file_name.replace(oldPartName, newPartName)))  # 输出替换后的名字
+        else:
+            os.rename(os.path.join(dir, file_name),
+                      os.path.join(dir, file_name.replace(oldPartName, newPartName + oldPartName)))  # 进行部分替换
+            print('new file name is {0}'.format(file_name.replace(oldPartName, newPartName + oldPartName)))  # 输出替换后的名字
+    except:
+        err = err_counter + 1
+        tmpNamelist = newPartName.split('.')
+        tmpNamelist.insert(2, '[' + str(err) + ']')
+        newPart = ".".join(tmpNamelist)
+        replace_filename(dir, file_name, oldPartName, newPart, Mode, err_counter=err)
 
 
 def main(argv):
