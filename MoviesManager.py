@@ -18,7 +18,7 @@ def incorrectformat_MV(dir, filename):
     namelist = []
     namelist.append(filename.split('.'))  # 将文件名按照.符号进行分割
 
-    if len(namelist) == 1:  # 如果文件名是用空格分隔
+    if len(namelist[0]) == 1:  # 如果文件名是用空格分隔
         namelist[0] = (filename.split(' '))  # 将文件名按照.空格进行分割
 
     # 文件年份判断操作
@@ -51,5 +51,5 @@ def replace_filename(dir, file_name, oldPartName, newPartName, Mode=True):
 
 
 if __name__ == '__main__':
-    pathstr = input("请输入需要检查的文件夹地址: ")
+    pathstr = 'C:\\Users\\HJH\\PycharmProjects\\UniversalScrapper\\testMV'
     get_allMV(pathstr)

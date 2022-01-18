@@ -3,7 +3,7 @@ from tmdbv3api import TMDb
 from tmdbv3api import Movie
 
 tmdb = TMDb()
-tmdb.api_key = '8a93c641a109bafadb38b526e7b2bb56'
+tmdb.api_key = 'YOUR_API_KEY'
 
 tmdb.language = 'zh'
 
