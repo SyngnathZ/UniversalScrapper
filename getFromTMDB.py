@@ -5,7 +5,7 @@ from tmdbv3api import TMDb
 from tmdbv3api import Movie
 
 tmdb = TMDb()
-tmdb.api_key = 'YOUR API'
+tmdb.api_key = '8a93c641a109bafadb38b526e7b2bb56'
 tmdb.language = 'zh'
 
 
@@ -18,7 +18,6 @@ def getMVFromTMDB(name, year):
             if res.release_date != '':
                 if int(year) + 1 >= int(res.release_date[:4]) >= int(
                         year) - 1:  # 通过预知电影年份进行匹配
-                    print(res.title)
                     return res.title
         except:
             print('没找到，使用其他方法继续查询......')

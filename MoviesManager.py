@@ -31,18 +31,23 @@ def incorrectformat_MV(dir, filename):
 
     # 文件年份判断操作
     i = 0
-    match = None
     for l in namelist[0]:
         match = re.match(r'.*([1-3][0-9]{3})', l)  # 匹配文件名中的年份
         if match is not None:
             movie['name'] = " ".join(namelist[0][:i])  # 默认年份前一个元素为名称
             movie['year'] = namelist[0][i]
             newname = getMVFromTMDB(movie['name'], movie['year'])
-            if newname != 'NOTFOUND':  # 若找到了新的名字
+            if newname != None:  # 若找到了新的名字
                 del namelist[0][i + 1:-1]
                 del namelist[0][:i]
                 namelist[0].insert(0, newname)
                 break
+            else:
+                for l in namelist[0][i + 1:-1]:
+                    if namelist[0][i + 1][0] == '[' and namelist[0][i + 1][-1] == ']':
+                        break
+                    namelist[0][i + 1] = '[' + l + ']'
+                    i += 1
         else:
             i += 1
 
