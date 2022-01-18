@@ -12,7 +12,7 @@ def get_allMV(dir):
         for name in fileNames:
             ext = ['.mp4', '.mkv']
             if name.endswith(tuple(ext)):
-                print(fileNames)
+                # print(fileNames)
                 incorrectformat_MV(parent, name)
 
 
