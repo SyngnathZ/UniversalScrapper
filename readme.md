@@ -6,7 +6,7 @@
 
 ## 针对的文件名范例
 
-‘’‘ Dogs.Without.Names.2015.HKG.BluRay.1080p.TrueHD.5.1.x265.10bit-CHD ’‘’
+‘’‘ Dogs.Without.Names.2015.HKG.BluRay.1080p.TrueHD.5.1.x265.10bit-CHD.mkv ’‘’
 
 ## 项目计划
 
