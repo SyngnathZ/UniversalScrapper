@@ -2,6 +2,8 @@
 # -*- coding: UTF-8 -*-
 import os
 import re
+import getopt
+import sys
 
 
 def get_allMV(dir):
@@ -18,8 +20,11 @@ def incorrectformat_MV(dir, filename):
     namelist = []
     namelist.append(filename.split('.'))  # 将文件名按照.符号进行分割
 
-    if len(namelist[0]) == 1:  # 如果文件名是用空格分隔
-        namelist[0] = (filename.split(' '))  # 将文件名按照.空格进行分割
+    if len(namelist[0]) == 2:  # 如果文件名是用空格分隔
+        namelist[0][0] = namelist[0][0].split(' ')  # 将文件名按照空格进行分割
+        namelist[0][0].append(namelist[0][1])  # 将最后后缀加上
+        del namelist[0][1]
+        namelist = [token for st in namelist for token in st]
 
     # 文件年份判断操作
     i = 0
@@ -50,6 +55,23 @@ def replace_filename(dir, file_name, oldPartName, newPartName, Mode=True):
         print('new file name is {0}'.format(file_name.replace(oldPartName, newPartName + oldPartName)))  # 输出替换后的名字
 
 
-if __name__ == '__main__':
-    pathstr = '/data/Movies'
+def main(argv):
+    pathstr = ''
+    databaseName = ''
+    try:
+        opts, args = getopt.getopt(argv, "p:d:", ["path=", "database="])
+    except getopt.GetoptError:
+        print('-p -d -c ')
+        sys.exit()
+
+    for opt, arg in opts:
+        if opt in ('-p', ' path'):
+            pathstr = arg
+        elif opt in ('-d', ' database'):
+            databaseName = arg
+
     get_allMV(pathstr)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
