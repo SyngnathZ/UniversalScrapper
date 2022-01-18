@@ -38,6 +38,8 @@ def incorrectformat_MV(dir, filename):
 
     if match is not None:
         for l in namelist[0][i + 1:-1]:
+            if namelist[0][i + 1][0] == '[' and namelist[0][i + 1][-1] == ']':
+                break
             namelist[0][i + 1] = '[' + l + ']'
             i += 1
 
