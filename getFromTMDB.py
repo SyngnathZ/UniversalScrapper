@@ -25,7 +25,12 @@ def getMVFromTMDB(name, year):
 
     IMDBid = getMVFromIMDB(name, year)
     search = movie.external(IMDBid, 'imdb_id')  # 输入电影名查询
-    return search.movie_results[0].title
+    try:
+        result = search.movie_results[0].title
+        return result
+    except:
+        print(name, '没找到!!')
+        return None
 
 
 def getMVFromIMDB(name, year):
