@@ -6,7 +6,7 @@
 
 ## 针对的文件名范例
 
-> Dogs.Without.Names.2015.HKG.BluRay.1080p.TrueHD.5.1.x265.10bit-CHD.mkv
+> Dogs.Without.Names.2015.HKG.BluRay.1080p.TrueHD.5.1.x265.10bit-CHD.mkv  
 > Parents 1989 BluRay 1080p DTS-HD MA 2.0 x265.10bit-CHD
 
 ## 项目计划
