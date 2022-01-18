@@ -51,5 +51,5 @@ def replace_filename(dir, file_name, oldPartName, newPartName, Mode=True):
 
 
 if __name__ == '__main__':
-    pathstr = 'C:\\Users\\HJH\\PycharmProjects\\UniversalScrapper\\testMV'
+    pathstr = '/data/Movies'
     get_allMV(pathstr)
