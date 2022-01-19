@@ -65,8 +65,8 @@ def replace_filename(dir, file_name, oldPartName, newPartName, afterdir=None, Mo
                       os.path.join(dir, file_name.replace(oldPartName, newPartName)))  # 进行部分替换
             print('new file name is {0}'.format(file_name.replace(oldPartName, newPartName)))  # 输出替换后的名字
             if afterdir != None:
-                src = os.path.join(dir, file_name)
-                dst = os.path.join(afterdir, file_name)
+                src = os.path.join(dir, newPartName)
+                dst = os.path.join(afterdir, newPartName)
                 shutil.move(src, dst)  # 将获取失败的文件统一挪动到指定文件夹
         else:
             os.rename(os.path.join(dir, file_name),
