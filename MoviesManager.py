@@ -3,6 +3,7 @@
 import os
 import re
 import getopt
+import shutil
 import sys
 
 from getFromTMDB import getMVFromTMDB
@@ -19,6 +20,7 @@ def get_allMV(dir):
 
 def incorrectformat_MV(dir, filename):
     movie = {'name': '', 'year': ''}  # 初始化一个字典便于后续处理
+    dir2 = None
     namelist = []
     namelist.append(filename.split('.'))  # 将文件名按照.符号进行分割
 
@@ -48,19 +50,24 @@ def incorrectformat_MV(dir, filename):
                         break
                     namelist[0][i + 1] = '[' + l + ']'
                     i += 1
+                dir2 = getlastLevel(dir) + '\\刮削失败'
                 break
         else:
             i += 1
 
-    replace_filename(dir, filename, filename, ".".join(namelist[0]))  # 进入更名步骤
+    replace_filename(dir, filename, filename, ".".join(namelist[0]), afterdir=dir2)  # 进入更名步骤
 
 
-def replace_filename(dir, file_name, oldPartName, newPartName, Mode=True, err_counter=0):
+def replace_filename(dir, file_name, oldPartName, newPartName, afterdir=None, Mode=True, err_counter=0):
     try:
         if Mode:
             os.rename(os.path.join(dir, file_name),
                       os.path.join(dir, file_name.replace(oldPartName, newPartName)))  # 进行部分替换
             print('new file name is {0}'.format(file_name.replace(oldPartName, newPartName)))  # 输出替换后的名字
+            if afterdir != None:
+                src = os.path.join(dir, file_name)
+                dst = os.path.join(afterdir, file_name)
+                shutil.move(src, dst)  # 将获取失败的文件统一挪动到指定文件夹
         else:
             os.rename(os.path.join(dir, file_name),
                       os.path.join(dir, file_name.replace(oldPartName, newPartName + oldPartName)))  # 进行部分替换
@@ -71,6 +78,12 @@ def replace_filename(dir, file_name, oldPartName, newPartName, Mode=True, err_co
         tmpNamelist.insert(2, '[' + str(err) + ']')
         newPart = ".".join(tmpNamelist)
         replace_filename(dir, file_name, oldPartName, newPart, Mode, err_counter=err)
+
+
+def getlastLevel(dir):  # 返回上一层级的文件夹名字
+    dirlist = dir.split('\\')
+    del dirlist[-1]
+    return '\\'.join(dirlist)
 
 
 def main(argv):

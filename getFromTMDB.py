@@ -45,3 +45,7 @@ def getMVFromIMDB(name, year):
     except:
         print('没找到，使用其他方法继续查询......')
         return None
+
+
+if __name__ == '__main__':
+    getMVFromTMDB('200 Pounds Beauty', '2012')
