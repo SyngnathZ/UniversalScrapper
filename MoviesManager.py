@@ -72,12 +72,12 @@ def replace_filename(dir, file_name, oldPartName, newPartName, afterdir=None, Mo
             os.rename(os.path.join(dir, file_name),
                       os.path.join(dir, file_name.replace(oldPartName, newPartName + oldPartName)))  # 进行部分替换
             print('new file name is {0}'.format(file_name.replace(oldPartName, newPartName + oldPartName)))  # 输出替换后的名字
-    except:
+    except FileExistsError:
         err = err_counter + 1
         tmpNamelist = newPartName.split('.')
         tmpNamelist.insert(2, '[' + str(err) + ']')
         newPart = ".".join(tmpNamelist)
-        replace_filename(dir, file_name, oldPartName, newPart, Mode, err_counter=err)
+        replace_filename(dir, file_name, oldPartName, newPart, Mode=Mode, err_counter=err)
 
 
 def getlastLevel(dir):  # 返回上一层级的文件夹名字
