@@ -33,7 +33,7 @@ def incorrectformat_MV(dir, filename):
     i = 0
     for l in namelist[0]:
         match = re.match(r'.*([1-3][0-9]{3})', l)  # 匹配文件名中的年份
-        if match is not None:
+        if match is not None and i != 0:  # 防止电影名也为年份造成的bug
             movie['name'] = " ".join(namelist[0][:i])  # 默认年份前一个元素为名称
             movie['year'] = namelist[0][i]
             newname = getMVFromTMDB(movie['name'], movie['year'])
