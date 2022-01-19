@@ -48,6 +48,7 @@ def incorrectformat_MV(dir, filename):
                         break
                     namelist[0][i + 1] = '[' + l + ']'
                     i += 1
+                break
         else:
             i += 1
 
