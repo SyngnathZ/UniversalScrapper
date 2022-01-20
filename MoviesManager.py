@@ -1,5 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
+
+import platform
 import os
 import re
 import getopt
@@ -81,9 +83,15 @@ def replace_filename(dir, file_name, oldPartName, newPartName, afterdir=None, Mo
 
 
 def getlastLevel(dir):  # 返回上一层级的文件夹名字
-    dirlist = dir.split('\\')
-    del dirlist[-1]
-    return '\\'.join(dirlist)
+    if platform.system().lower() == 'windows':
+        dirlist = dir.split('\\')
+        del dirlist[-1]
+        return '\\'.join(dirlist)
+    elif platform.system().lower() == 'linux':
+        dirlist = dir.split('/')
+        del dirlist[-1]
+        return '/'.join(dirlist)
+
 
 
 def main(argv):
