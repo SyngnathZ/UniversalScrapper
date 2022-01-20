@@ -56,8 +56,8 @@ def incorrectformat_MV(dir, filename):
                 break
         else:
             i += 1
-
-    replace_filename(dir, filename, filename, ".".join(namelist[0]), afterdir=dir2)  # 进入更名步骤
+    newName = validateTitle(".".join(namelist[0]))
+    replace_filename(dir, filename, filename, newName, afterdir=dir2)  # 进入更名步骤
 
 
 def replace_filename(dir, file_name, oldPartName, newPartName, afterdir=None, Mode=True, err_counter=0):
@@ -91,6 +91,12 @@ def getlastLevel(dir):  # 返回上一层级的文件夹名字
         dirlist = dir.split('/')
         del dirlist[-1]
         return '/'.join(dirlist) + '/刮削失败'
+
+
+def validateTitle(title):  # 非法字符判断
+    rstr = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
+    new_title = re.sub(rstr, ".", title)  # 替换为下划线
+    return new_title
 
 
 def main(argv):
