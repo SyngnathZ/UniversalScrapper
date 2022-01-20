@@ -52,7 +52,7 @@ def incorrectformat_MV(dir, filename):
                         break
                     namelist[0][i + 1] = '[' + l + ']'
                     i += 1
-                dir2 = getlastLevel(dir) + '\\刮削失败'
+                dir2 = getlastLevel(dir)
                 break
         else:
             i += 1
@@ -86,12 +86,11 @@ def getlastLevel(dir):  # 返回上一层级的文件夹名字
     if platform.system().lower() == 'windows':
         dirlist = dir.split('\\')
         del dirlist[-1]
-        return '\\'.join(dirlist)
+        return '\\'.join(dirlist) + '\\刮削失败'
     elif platform.system().lower() == 'linux':
         dirlist = dir.split('/')
         del dirlist[-1]
-        return '/'.join(dirlist)
-
+        return '/'.join(dirlist) + '/刮削失败'
 
 
 def main(argv):
