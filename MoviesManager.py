@@ -21,6 +21,7 @@ def get_allMV(dir):
 
 
 def incorrectformat_MV(dir, filename):
+    newName = ''
     movie = {'name': '', 'year': ''}  # 初始化一个字典便于后续处理
     dir2 = None
     namelist = []
@@ -45,6 +46,11 @@ def incorrectformat_MV(dir, filename):
                 del namelist[0][i + 1:-1]
                 del namelist[0][:i]
                 namelist[0].insert(0, newname)
+                # namelist[0][-1] = '.' + namelist[0][-1]  # 后缀名加.
+                namelist[0][-2] = '(' + namelist[0][-2] + ')'  # 年份加括号
+                newName = validateTitle(" ".join(namelist[0][:-1]))  # 改用xxx (2021)的格式
+                tmpList = [newName, namelist[0][-1]]
+                newName = ".".join(tmpList)  # 加上.后缀名
                 break
             else:
                 for l in namelist[0][i + 1:-1]:
@@ -53,11 +59,15 @@ def incorrectformat_MV(dir, filename):
                     namelist[0][i + 1] = '[' + l + ']'
                     i += 1
                 dir2 = getlastLevel(dir)
+                newName = validateTitle(".".join(namelist[0]))
                 break
         else:
             i += 1
-    newName = validateTitle(".".join(namelist[0]))
-    replace_filename(dir, filename, filename, newName, afterdir=dir2)  # 进入更名步骤
+    # newName = validateTitle(".".join(namelist[0]))
+    if newName != '':
+        replace_filename(dir, filename, filename, newName, afterdir=dir2)  # 进入更名步骤
+    else:
+        print('改名失败')
 
 
 def replace_filename(dir, file_name, oldPartName, newPartName, afterdir=None, Mode=True, err_counter=0):
