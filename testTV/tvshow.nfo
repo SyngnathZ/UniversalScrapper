@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--created on 2022-01-23 17:47:08 - tinyMediaManager 3.1.16.1-->
+<tvshow>
+  <title>1883</title>
+  <originaltitle>1883</originaltitle>
+  <showtitle>1883</showtitle>
+  <sorttitle/>
+  <year>2021</year>
+  <rating>8.7</rating>
+  <userrating>0.0</userrating>
+  <votes>48</votes>
+  <outline/>
+  <plot>故事聚焦Dutton一家在多年前西进的旅程，他们穿越大平原前往美国最后一站蛮荒之地，在应许之地蒙大拿寻求更美好的未来。艾里奥特饰演强硬的牛仔Shea Brennan，有着非常悲伤的过去，他承担着带领一群人从德克萨斯前往蒙大拿的艰巨任务，绝不容忍蠢人。</plot>
+  <tagline/>
+  <runtime>67</runtime>
+  <thumb aspect="poster">https://assets.fanart.tv/fanart/tv/396390/tvposter/1883-61c1e2418f143.jpg</thumb>
+  <namedseason number="0">特别篇</namedseason>
+  <namedseason number="1">第 1 季</namedseason>
+  <thumb aspect="poster" season="1" type="season">https://assets.fanart.tv/fanart/tv/396390/seasonposter/1883-61c1e25467454.jpg</thumb>
+  <fanart>
+    <thumb>http://image.tmdb.org/t/p/w1280/1V8gig4wf7jYoB7wdchJbAMXyMB.jpg</thumb>
+  </fanart>
+  <mpaa>TV-MA</mpaa>
+  <certification>US:TV-MA</certification>
+  <episodeguide>
+    <url cache="auth.json" post="yes">https://api.thetvdb.com/login?{"apikey":"439DFEBA9D3059C6","id":396390}|Content-Type=application/json</url>
+  </episodeguide>
+  <id>396390</id>
+  <imdbid>tt13991232</imdbid>
+  <uniqueid default="false" type="tmdb">118357</uniqueid>
+  <uniqueid default="false" type="imdb">tt13991232</uniqueid>
+  <uniqueid default="true" type="tvdb">396390</uniqueid>
+  <premiered>2021-12-19</premiered>
+  <status>Continuing</status>
+  <watched>false</watched>
+  <playcount/>
+  <genre>Western</genre>
+  <genre>Drama</genre>
+  <studio>101 Studios</studio>
+  <studio>The Linson Company</studio>
+  <studio>Bosque Ranch Productions</studio>
+  <studio>MTV Entertainment Studios</studio>
+  <actor>
+    <name>Sam Elliott</name>
+    <role>Shea Brennan</role>
+    <thumb>http://image.tmdb.org/t/p/h632/1K2IvGXFbKsgkExuUsRvy4F0c9e.jpg</thumb>
+    <profile>https://www.themoviedb.org/person/16431</profile>
+  </actor>
+  <actor>
+    <name>Tim McGraw</name>
+    <role>James Dutton</role>
+    <thumb>http://image.tmdb.org/t/p/h632/prKoPyWZDQYHZeTmFqvMW0EFWDB.jpg</thumb>
+    <profile>https://www.themoviedb.org/person/74428</profile>
+  </actor>
+  <actor>
+    <name>Faith Hill</name>
+    <role>Margaret Dutton</role>
+    <thumb>http://image.tmdb.org/t/p/h632/1puls2OlcTYysLl8h0VDiGFw4fo.jpg</thumb>
+    <profile>https://www.themoviedb.org/person/60017</profile>
+  </actor>
+  <actor>
+    <name>Isabel May</name>
+    <role>Elsa Dutton</role>
+    <thumb>http://image.tmdb.org/t/p/h632/9AT39NSHNQ44VebDrqupxplmyLK.jpg</thumb>
+    <profile>https://www.themoviedb.org/person/1972974</profile>
+  </actor>
+  <actor>
+    <name>LaMonica Garrett</name>
+    <role>Thomas</role>
+    <thumb>http://image.tmdb.org/t/p/h632/yE5TBZ2qC5LAPDduBQAERo7EF3r.jpg</thumb>
+    <profile>https://www.themoviedb.org/person/1094385</profile>
+  </actor>
+  <actor>
+    <name>Marc Rissmann</name>
+    <role>Josef</role>
+    <thumb>http://image.tmdb.org/t/p/h632/m3QTVb7rpJ7M4iRe53to7c669v5.jpg</thumb>
+    <profile>https://www.themoviedb.org/person/1819397</profile>
+  </actor>
+  <actor>
+    <name>Audie Rick</name>
+    <role>John Dutton</role>
+    <thumb>http://image.tmdb.org/t/p/h632/1yHs76UvYpATU4xZ8rvJtmUItpb.jpg</thumb>
+    <profile>https://www.themoviedb.org/person/3257019</profile>
+  </actor>
+  <actor>
+    <name>James Landry Hébert</name>
+    <role>Wade</role>
+    <thumb>http://image.tmdb.org/t/p/h632/1WC4pv2BWJGNqqoo3CnCelXmGEE.jpg</thumb>
+    <profile>https://www.themoviedb.org/person/1170659</profile>
+  </actor>
+  <trailer>http://www.youtube.com/watch?v=ZkbH1zjsM7g&amp;hd=1</trailer>
+  <dateadded>2022-01-23 17:46:55</dateadded>
+  <!--tinyMediaManager meta data-->
+  <user_note/>
+</tvshow>
