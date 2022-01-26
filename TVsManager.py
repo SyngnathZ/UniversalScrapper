@@ -1,13 +1,12 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-import platform
 import os
 import re
 import getopt
 import shutil
 import sys
-from TVScrapper.tools.preprocess import find_diynfo, find_TVname
+from TVScrapper.tools.preprocess import find_diynfo, find_adj_TV
 
 
 def get_allTV(dir):
@@ -23,18 +22,7 @@ def get_allTV(dir):
             mediaext = ['.mkv', 'mp4']  # 利用二级目录下的视频文件进行搜索
             if each.endswith(tuple(mediaext)):  # 获取二级目录下的nfo文件
                 medianame.append(each)
-        TV_Season, offset = find_TVname(medianame, tvlist)  # 将获取到的文件名输入list,获取子文件夹名中的季元信息
-
-
-def getlastLevel(dir):  # 返回上一层级的文件夹名字
-    if platform.system().lower() == 'windows':
-        dirlist = dir.split('\\')
-        del dirlist[-1]
-        return '\\'.join(dirlist) + '\\刮削失败'
-    elif platform.system().lower() == 'linux':
-        dirlist = dir.split('/')
-        del dirlist[-1]
-        return '/'.join(dirlist) + '/刮削失败'
+        find_adj_TV(medianame, tvlist, dir)  # 将获取到的文件名输入list,获取子文件夹名中的季元信息,并且进行文件名修改和移动
 
 
 def main(argv):
@@ -56,5 +44,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    print(platform.system().lower())
     main(sys.argv[1:])

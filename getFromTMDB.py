@@ -1,8 +1,6 @@
-from tmdbv3api import TV
-
 from imdb import IMDb
 from tmdbv3api import TMDb
-from tmdbv3api import Movie
+from tmdbv3api import Movie, TV
 
 tmdb = TMDb()
 tmdb.api_key = '8a93c641a109bafadb38b526e7b2bb56'
@@ -31,6 +29,23 @@ def getMVFromTMDB(name, year):
     except:
         print(name, '没找到!!')
         return None
+
+
+def getTVFromTMDB(name):
+    tv = TV()
+    search = tv.search(name)  # 输入电影名查询
+
+    for res in search:
+        return res.name, res.first_air_date[:4]
+
+    # IMDBid = getMVFromIMDB(name, year)
+    # search = movie.external(IMDBid, 'imdb_id')  # 输入电影名查询
+    # try:
+    #     result = search.movie_results[0].title
+    #     return result
+    # except:
+    #     print(name, '没找到!!')
+    #     return None
 
 
 def getMVFromIMDB(name, year):
