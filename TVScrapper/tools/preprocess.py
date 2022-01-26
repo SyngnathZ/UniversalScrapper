@@ -31,6 +31,7 @@ def find_adj_TV(filename, tvname, rootdir):
         # 初步检查是否包含季元信息
         match = re.match(r'.*([S,s][0-9]{2})', namelist[0][j])  # 匹配文件名中的季度信息
         if match is not None:
+            TV_Season = namelist[0][j]
             break
         j += 1  # 以j作为季元信息的对比符号
 
@@ -38,15 +39,18 @@ def find_adj_TV(filename, tvname, rootdir):
     for _ in namelist[0]:
         # 初步检查是否包含季元信息
         if namelist[0][i] != namelist[1][i]:  # 遍历所有拆开的字符串
-            if i != j:
-                TV_Season = namelist[0][j]
-                for num in range(len(namelist)):
-                    del namelist[num][j]  # 去除季信息干扰
-            match = re.match(r'.*([1-3][0-9]{3})', namelist[0][i - 1])  # 查看倒数第二位是否匹配文件名中的年份
-            if match is not None and i != 0:  # 防止剧名也为年份造成的bug
-                TV_name['SeriesName'] = ' '.join(namelist[0][:i - 1])  # 去除年份干扰
-            else:
-                TV_name['SeriesName'] = ' '.join(namelist[0][:i])  # 无年份干扰
+            if i > j:  # 如果剧季信息为单独出现，则需要进行不太一样的操作（这段有点复杂）
+                match = re.match(r'.*([1-3][0-9]{3})', namelist[0][i - 1])  # 查看倒数第二位是否匹配文件名中的年份
+                if match is not None and i != 0:  # 防止剧名也为年份造成的bug
+                    TV_name['SeriesName'] = ' '.join(namelist[0][:i - 2])  # 去除年份干扰
+                else:
+                    TV_name['SeriesName'] = ' '.join(namelist[0][:i - 1])  # 无年份干扰
+            else:  # 如果没有剧季信息或出现在后面
+                match = re.match(r'.*([1-3][0-9]{3})', namelist[0][i - 1])  # 查看倒数第二位是否匹配文件名中的年份
+                if match is not None and i != 0:  # 防止剧名也为年份造成的bug
+                    TV_name['SeriesName'] = ' '.join(namelist[0][:i - 1])  # 去除年份干扰
+                else:
+                    TV_name['SeriesName'] = ' '.join(namelist[0][:i])  # 无年份干扰
             TV_name['SeriesName'], TV_name['SeriesYear'] = getTVFromTMDB(TV_name['SeriesName'])
             if 'S' in namelist[0][i]:
                 TV_name['new'] = []
