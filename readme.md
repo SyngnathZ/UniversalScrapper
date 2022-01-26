@@ -4,7 +4,7 @@
 
 通过抓取文件夹里的电影或电视剧并且与TMDB进行比对，实现匹配改名  
 电影改名结果为"xxx (2021)的格式"  
-电视剧改名结果为"xxx (2021)/Season xx的格式"  
+电视剧改名结果为"xxx (2021)/Season xx的格式"
 
 ## 针对的文件名范例
 
@@ -35,3 +35,4 @@
 * Parents 1989 BluRay 1080p DTS-HD MA 2.0 x265.10bit-CHD.mkv——带空格的文件命名
 * 1921.2021——即电影名是年份造成的bug
 * Ten: The Sacrifice.2020.mkv——由于Windows下文件名非法字符造成的bug
+* The.Wire.S02.2003.E10.BluRay.1080p.DTS.HDMA5.1.x265.10bit-CHD.mkv——剧集文件名内季信息单独分割出现
