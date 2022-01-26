@@ -38,11 +38,8 @@ def find_adj_TV(filename, tvname, rootdir):
                     TV_Season = namelist[0][i][:3]
                     for num in range(len(namelist)):
                         TV_name['new'].append(".".join(namelist[num]))  # 记录新文件名
-                    src = os.path.join(rootdir, tvname)
-                    dst = os.path.join(getlastLevel_success(src),
-                                       TV_name['SeriesName'] + ' (' + TV_name['SeriesYear'] + ')',
-                                       TV_Season.replace('S', 'Season '))
-                    shutil.move(src, dst)  # 将获取失败的文件统一挪动到指定文件夹
+                    move_success(rootdir, tvname, TV_name, TV_Season)
+                    return
                 else:
                     incorrect = ['ep', 'e', 'Ep']  # 列出所有不合理的关于E0x的命名方法
                     for each in incorrect:
@@ -67,6 +64,8 @@ def find_adj_TV(filename, tvname, rootdir):
                     for num in range(len(namelist)):
                         replace_filename(os.path.join(rootdir, tvname), TV_name['old'][num], TV_name['old'][num],
                                          TV_name['new'][num])  # 改名操作
+                    move_success(rootdir, tvname, TV_name, TV_Season)
+                    return
 
             i += 1
 
@@ -136,15 +135,27 @@ def replace_filename(dir, file_name, oldPartName, newPartName, afterdir=None, Mo
         replace_filename(dir, file_name, oldPartName, newPart, Mode=Mode, err_counter=err)
 
 
-def getlastLevel_success(dir):  # 返回上一层级刮削成功文件夹
+def getlastLevel_success(dir):  # 返回上二层级刮削成功文件夹
     if platform.system().lower() == 'windows':
         dirlist = dir.split('\\')
-        del dirlist[-1]
+        del dirlist[-2:]  # 删除两层文件夹层级
         return '\\'.join(dirlist) + '\\刮削成功'
     elif platform.system().lower() == 'linux' or platform.system().lower() == 'darwin':
         dirlist = dir.split('/')
-        del dirlist[-1]
+        del dirlist[-2:]
         return '/'.join(dirlist) + '/刮削成功'
+
+
+def move_success(rootdir, tvname, TV_name, TV_Season):
+    src = os.path.join(rootdir, tvname)
+    if TV_name['SeriesYear'] != 'UNKONWN':
+        dst = os.path.join(getlastLevel_success(src),
+                           TV_name['SeriesName'] + ' (' + TV_name['SeriesYear'] + ')',
+                           TV_Season.replace('S', 'Season '))
+    else:  # 若没搜索到年份信息，则空余年份信息
+        dst = os.path.join(getlastLevel_success(src), TV_name['SeriesName'], TV_Season.replace('S', 'Season '))
+    shutil.move(src, dst)  # 将获取失败的文件统一挪动到指定文件夹
+    return
 
 
 if __name__ == "__main__":

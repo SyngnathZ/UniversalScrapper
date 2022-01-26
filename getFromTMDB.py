@@ -35,8 +35,11 @@ def getTVFromTMDB(name):
     tv = TV()
     search = tv.search(name)  # 输入电影名查询
 
-    for res in search:
-        return res.name, res.first_air_date[:4]
+    if len(search) != 0:
+        for res in search:
+            return res.name, res.first_air_date[:4]
+    else:
+        return name, 'UNKONWN'  # 没搜到的情况
 
     # IMDBid = getMVFromIMDB(name, year)
     # search = movie.external(IMDBid, 'imdb_id')  # 输入电影名查询
