@@ -1,3 +1,4 @@
+import os
 from imdb import IMDb
 from tmdbv3api import TMDb
 from tmdbv3api import Movie, TV
@@ -31,7 +32,9 @@ def getMVFromTMDB(name, year):
         return None
 
 
-def getTVFromTMDB(name):
+def getTVFromTMDB(name, dir, tvlist):
+    TV_name = None
+    TV_year = None
     tv = TV()
     search = tv.search(name)  # 输入电影名查询
 
@@ -39,6 +42,14 @@ def getTVFromTMDB(name):
         for res in search:
             return res.name, res.first_air_date[:4]
     elif len(search) > 1:
+        # 如果有多个搜索结果，则首先尝试搜索nfo文件
+        from TVScrapper.tools.preprocess import find_diynfo
+        for each in os.listdir(os.path.join(dir, tvlist)):  # 获取二级目录下的视频文件
+            nfoext = ['.nfo']  # 利用nfo文件进行搜索
+            if each.endswith(tuple(nfoext)):  # 获取二级目录下的nfo文件
+                TV_name, TV_year = find_diynfo(os.path.join(dir, tvlist, each))
+                if TV_name is not None:
+                    return TV_name, TV_year
         i = 0
         for res in search:
             print(str(i) + '是:' + res.name + '，首播日期是' + res.first_air_date)
@@ -46,16 +57,21 @@ def getTVFromTMDB(name):
         num = input("有多个搜索结果，请输入正确的编号: ")
         return search[int(num)].name, search[int(num)].first_air_date[:4]  # 若有多个搜索结果则人工介入
     else:
-        return name, 'UNKONWN'  # 没搜到的情况
-
-    # IMDBid = getMVFromIMDB(name, year)
-    # search = movie.external(IMDBid, 'imdb_id')  # 输入电影名查询
-    # try:
-    #     result = search.movie_results[0].title
-    #     return result
-    # except:
-    #     print(name, '没找到!!')
-    #     return None
+        # 如果有没有搜索结果，则首先尝试搜索nfo文件
+        from TVScrapper.tools.preprocess import find_diynfo
+        for each in os.listdir(os.path.join(dir, tvlist)):  # 获取二级目录下的视频文件
+            nfoext = ['.nfo']  # 利用nfo文件进行搜索
+            if each.endswith(tuple(nfoext)):  # 获取二级目录下的nfo文件
+                TV_name, TV_year = find_diynfo(os.path.join(dir, tvlist, each))
+                if TV_name is not None:
+                    return TV_name, TV_year
+        print('找不到该文件夹下的剧集信息，且没有nfo：' + tvlist)
+        TV_name = input("请手动查询该剧集名称并输入，若实在搜不到可以直接回车: ")
+        TV_year = input("请手动查询该剧集发行年份并输入，若实在搜不到可以直接回车: ")
+        if TV_name and TV_year is not None:
+            return TV_name, TV_year  # 手动输入
+        else:
+            return name, 'UNKNOWN'  # 没搜到的情况
 
 
 def getMVFromIMDB(name, year):

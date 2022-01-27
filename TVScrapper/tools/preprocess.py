@@ -59,7 +59,7 @@ def find_adj_TV(filename, tvname, rootdir):
                     del namelist[num][k]
                 i = i - 1
             TV_name['SeriesName'] = ' '.join(namelist[0][:i])  # 无年份干扰
-            TV_name['SeriesName'], TV_name['SeriesYear'] = getTVFromTMDB(TV_name['SeriesName'])
+            TV_name['SeriesName'], TV_name['SeriesYear'] = getTVFromTMDB(TV_name['SeriesName'], rootdir, tvname)
             if 'S' in namelist[0][i]:
                 TV_name['new'] = []
                 TV_Season = namelist[0][i][:3]  # 如果剧集分集上即能获取季元数据
@@ -194,11 +194,6 @@ def move_success(rootdir, tvname, TV_name, TV_Season):
 
 
 def mkdirs(path):
-    # # 去除首位空格
-    # path = dir.strip()
-    # # 去除尾部 \ 符号
-    # path = path.rstrip("\\")
-    # 判断路径是否存在
     isExists = os.path.exists(path)
     # 判断结果
     if not isExists:
