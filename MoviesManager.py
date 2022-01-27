@@ -15,7 +15,7 @@ def get_allMV(dir):
     print('开始获取待修改的电影...')
     for parent, dirNames, fileNames in os.walk(dir):
         for name in fileNames:
-            ext = ['.mp4', '.mkv']
+            ext = ['.mkv', '.mp4', '.ass', '.srt']
             if name.endswith(tuple(ext)):
                 incorrectformat_MV(parent, name)
 

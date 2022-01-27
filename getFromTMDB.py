@@ -52,7 +52,10 @@ def getTVFromTMDB(name, dir, tvlist):
                     return TV_name, TV_year
         i = 0
         for res in search:
-            print(str(i) + '是:' + res.name + '，首播日期是' + res.first_air_date)
+            try:
+                print(str(i) + '是:' + res.name + '，首播日期是' + res.first_air_date)
+            except AttributeError:
+                print('该选项无效，跳过该选项')  # 避免出现空值导致错误
             i += 1
         num = input("有多个搜索结果，请输入正确的编号: ")
         return search[int(num)].name, search[int(num)].first_air_date[:4]  # 若有多个搜索结果则人工介入
