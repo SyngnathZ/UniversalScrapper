@@ -184,7 +184,12 @@ def move_success(rootdir, tvname, TV_name, TV_Season):
         dst = os.path.join(getlastLevel_success(src), TV_name['SeriesName'])
     mkdirs(dst)  # 首先创建文件夹
     shutil.move(src, dst)  # 将获取失败的文件统一挪动到指定文件夹
-    os.rename(os.path.join(dst, tvname), os.path.join(dst, TV_Season.replace('S', 'Season ')))
+    try:
+        os.rename(os.path.join(dst, tvname), os.path.join(dst, TV_Season.replace('S', 'Season ')))
+    except OSError:
+        print('存在相同分辨率文件夹，合并中...')
+        change(os.path.join(dst, tvname), os.path.join(dst, TV_Season.replace('S', 'Season ')))
+        os.rmdir(os.path.join(dst, tvname))
     return
 
 
@@ -204,6 +209,14 @@ def mkdirs(path):
         # 如果目录存在则不创建，并提示目录已存在
         print(path + ' 目录已存在')
         return False
+
+
+def change(path, path1):  # 将一个文件夹里的内容移动到另一个文件夹
+    for f in os.listdir(path):
+        if os.path.isfile(path + os.path.sep + f):
+            shutil.move(path + os.sep + f, path1)
+        elif os.path.isdir(path + os.path.sep + f):
+            change(path + os.sep + f, path1)
 
 
 if __name__ == "__main__":
