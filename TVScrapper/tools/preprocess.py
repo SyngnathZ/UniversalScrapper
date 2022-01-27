@@ -16,6 +16,7 @@ tmdb.language = 'zh'
 
 
 def find_adj_TV(filename, tvname, rootdir):
+    passkey = False
     TV_Season = ''
     namelist = []
     for each in filename:
@@ -25,6 +26,7 @@ def find_adj_TV(filename, tvname, rootdir):
     TV_name = dict()
     TV_name['old'] = filename
     TV_name['SeriesYear'] = 'UNKONWN'
+    TV_name['SeriesName'] = None
 
     j = 0
     for _ in namelist[0]:
@@ -45,9 +47,26 @@ def find_adj_TV(filename, tvname, rootdir):
         k += 1  # 以j作为季元信息的对比符号
 
     i = 0
+    # 如果只有一集的情况，进行部分人工预处理
+    if len(namelist[:][:]) == 1:
+        for num in range(len(namelist[0])):
+            print('第' + str(num) + '是：' + namelist[0][num])
+        TV_name_num = input("表示该剧集名称的最后一个字符串号: ")
+        TV_ep_num = input("表示该剧集集数的字符串号: ")
+        if j == len(namelist[0]):
+            TV_Season = 'S' + str(input("请输入" + tvname + "的季号(01、02、03...记得带0)，直接回车则默认为01: "))  # 搜索失败则人工干预
+        else:
+            TV_Season = namelist[0][j][:3]  # 如果剧集分集上即能获取季元数据
+        if TV_Season == 'S':
+            print('使用默认值S01...')
+            TV_Season = 'S01'
+        passkey = True  # 跳过检查
+        TV_name['SeriesName'] = ' '.join(namelist[0][:int(TV_name_num) + 1])  # 准确获取年份
+        i = int(TV_ep_num)
+
     for _ in namelist[0]:
         # 初步检查是否包含季元信息
-        if namelist[0][i] != namelist[1][i]:  # 遍历所有拆开的字符串
+        if passkey or namelist[0][i] != namelist[1][i]:  # 遍历所有拆开的字符串
             if i > j:  # 如果剧季信息为单独出现，则需要进行不太一样的操作（这段有点复杂）
                 for num in range(len(namelist)):
                     del namelist[num][j]
@@ -58,7 +77,8 @@ def find_adj_TV(filename, tvname, rootdir):
                 for num in range(len(namelist)):
                     del namelist[num][k]
                 i = i - 1
-            TV_name['SeriesName'] = ' '.join(namelist[0][:i])  # 无年份干扰
+            if TV_name['SeriesName'] is None:
+                TV_name['SeriesName'] = ' '.join(namelist[0][:i])  # 无年份干扰
             TV_name['SeriesName'], TV_name['SeriesYear'] = getTVFromTMDB(TV_name['SeriesName'], rootdir, tvname)
             if 'S' in namelist[0][i]:
                 TV_name['new'] = []
