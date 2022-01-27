@@ -57,6 +57,7 @@ def getTVFromTMDB(name, dir, tvlist):
             except AttributeError:
                 print('该选项无效，跳过该选项')  # 避免出现空值导致错误
             i += 1
+        print(tvlist)
         num = input("有多个搜索结果，请输入正确的编号: ")
         return search[int(num)].name, search[int(num)].first_air_date[:4]  # 若有多个搜索结果则人工介入
     else:
