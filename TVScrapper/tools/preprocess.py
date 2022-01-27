@@ -77,12 +77,15 @@ def find_adj_TV(filename, tvname, rootdir):
                 if TV_Season == '':  # 若前面过程在剔除季元信息过程中获得了季信息则跳过
                     TV_Season = get_Seasoninfo(tvname)
 
-                if TV_Season != '':  # 如果通过母文件夹名获取成功则直接利用季元信息
+                if TV_Season != None:  # 如果通过母文件夹名获取成功则直接利用季元信息
                     incorrect = ['s']  # 列出所有不合理的关于S0x的命名方法
                     for each in incorrect:
                         TV_Season = TV_Season.replace(each, 'S')
                 else:
-                    TV_Season = 'S' + str(input("请输入" + tvname + "的季号(01、02、03...记得带0): "))  # 搜索失败则人工干预
+                    TV_Season = 'S' + str(input("请输入" + tvname + "的季号(01、02、03...记得带0)，直接回车则默认为01: "))  # 搜索失败则人工干预
+                    if TV_Season == 'S':
+                        print('使用默认值S01...')
+                        TV_Season = 'S01'
 
                 TV_name['new'] = []
                 for num in range(len(namelist)):
@@ -212,8 +215,3 @@ def change(path, path1):  # 将一个文件夹里的内容移动到另一个文�
             shutil.move(path + os.sep + f, path1)
         elif os.path.isdir(path + os.path.sep + f):
             change(path + os.sep + f, path1)
-
-
-if __name__ == "__main__":
-    match = re.match(r'.*([S,s][0-9]{2})', 'S01')  # 匹配文件名中的季度信息
-    find_diynfo('../../testTV/The Great.S01E07.BluRay.1080p.DTS-HD.MA.5.1.x265.10bit-CHD.nfo')
