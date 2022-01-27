@@ -44,7 +44,7 @@ def getTVFromTMDB(name):
             print(str(i) + '是:' + res.name + '，首播日期是' + res.first_air_date)
             i += 1
         num = input("有多个搜索结果，请输入正确的编号: ")
-        return search[num].name, search[num].first_air_date[:4]  # 若有多个搜索结果则人工介入
+        return search[int(num)].name, search[int(num)].first_air_date[:4]  # 若有多个搜索结果则人工介入
     else:
         return name, 'UNKONWN'  # 没搜到的情况
 
