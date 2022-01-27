@@ -180,6 +180,7 @@ def getlastLevel_success(dir):  # 返回上二层级刮削成功文件夹
 
 def move_success(rootdir, tvname, TV_name, TV_Season):
     src = os.path.join(rootdir, tvname)
+    TV_name['SeriesName'] = validateTitle(TV_name['SeriesName'])
     if TV_name['SeriesYear'] != 'UNKONWN':
         dst = os.path.join(getlastLevel_success(src),
                            TV_name['SeriesName'] + ' (' + TV_name['SeriesYear'] + ')')
@@ -207,6 +208,12 @@ def mkdirs(path):
         # 如果目录存在则不创建，并提示目录已存在
         print(path + ' 目录已存在')
         return False
+
+
+def validateTitle(title):  # 非法字符判断
+    rstr = r"[\/\\\:\*\?\"\<\>\|]"  # '/ \ : * ? " < > |'
+    new_title = re.sub(rstr, ".", title)  # 替换为下划线
+    return new_title
 
 
 def change(path, path1):  # 将一个文件夹里的内容移动到另一个文件夹
