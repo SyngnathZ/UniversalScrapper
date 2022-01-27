@@ -179,12 +179,12 @@ def move_success(rootdir, tvname, TV_name, TV_Season):
     src = os.path.join(rootdir, tvname)
     if TV_name['SeriesYear'] != 'UNKONWN':
         dst = os.path.join(getlastLevel_success(src),
-                           TV_name['SeriesName'] + ' (' + TV_name['SeriesYear'] + ')',
-                           TV_Season.replace('S', 'Season '))
+                           TV_name['SeriesName'] + ' (' + TV_name['SeriesYear'] + ')')
     else:  # 若没搜索到年份信息，则空余年份信息
-        dst = os.path.join(getlastLevel_success(src), TV_name['SeriesName'], TV_Season.replace('S', 'Season '))
-    mkdirs(dst) # 首先创建文件夹
+        dst = os.path.join(getlastLevel_success(src), TV_name['SeriesName'])
+    mkdirs(dst)  # 首先创建文件夹
     shutil.move(src, dst)  # 将获取失败的文件统一挪动到指定文件夹
+    os.rename(os.path.join(dst, tvname), os.path.join(dst, TV_Season.replace('S', 'Season ')))
     return
 
 

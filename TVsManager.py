@@ -2,9 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import os
-import re
 import getopt
-import shutil
 import sys
 from TVScrapper.tools.preprocess import find_diynfo, find_adj_TV
 
