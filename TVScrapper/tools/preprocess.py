@@ -8,7 +8,7 @@ import shutil
 import xml.etree.ElementTree as ET
 from tmdbv3api import TMDb
 from tmdbv3api import Movie, TV
-from getFromTMDB import getTVFromTMDB
+from getFromTMDB import getTVFromTMDB, getTVFromTMDB_withskip
 
 tmdb = TMDb()
 tmdb.api_key = '8a93c641a109bafadb38b526e7b2bb56'
@@ -106,6 +106,103 @@ def find_adj_TV(filename, tvname, rootdir):
                     if TV_Season == 'S':
                         print('使用默认值S01...')
                         TV_Season = 'S01'
+
+                TV_name['new'] = []
+                for num in range(len(namelist)):
+                    namelist[num][i] = TV_Season + namelist[num][i]
+                    TV_name['new'].append(".".join(namelist[num]))  # 记录新文件名
+
+                # 进行改名操作，文件名添加
+                for num in range(len(namelist)):
+                    replace_filename(os.path.join(rootdir, tvname), TV_name['old'][num], TV_name['old'][num],
+                                     TV_name['new'][num])  # 改名操作
+                move_success(rootdir, tvname, TV_name, TV_Season)
+                return
+
+        i += 1
+
+
+def find_adj_TVwithskip(filename, tvname, rootdir):  # 将人工处理的部分剔除，跳过人工处理的部分
+    passkey = False
+    TV_Season = ''
+    namelist = []
+    for each in filename:
+        each = each.replace(' ', '.')  # 将所有空格替换成句点
+        namelist.append(each.split('.'))  # 首先用.进行分割
+    # 将所有空格替换成点号
+    TV_name = dict()
+    TV_name['old'] = filename
+    TV_name['SeriesYear'] = 'UNKONWN'
+    TV_name['SeriesName'] = None
+
+    j = 0
+    for _ in namelist[0]:
+        # 初步检查是否包含季元信息
+        match = re.match(r'.*([S,s][0-9]{2})', namelist[0][j])  # 匹配文件名中的季度信息
+        if match is not None:
+            TV_Season = namelist[0][j]
+            break
+        j += 1  # 以j作为季元信息的对比符号
+
+    k = 0
+    for _ in namelist[0]:
+        # 初步检查是否包含季元信息
+        match = re.match(r'.*([1-3][0-9]{3})', namelist[0][k])  # 查看倒数第二位是否匹配文件名中的年份
+        if match is not None and k != 0:
+            TV_name['SeriesYear'] = namelist[0][k]
+            break
+        k += 1  # 以j作为季元信息的对比符号
+
+    i = 0
+    # 如果只有一集的情况，进行部分人工预处理
+    if len(namelist[:][:]) == 1:
+        print(tvname + '只有一集，跳过......')
+        return None
+
+    for _ in namelist[0]:
+        # 初步检查是否包含季元信息
+        if passkey or namelist[0][i] != namelist[1][i]:  # 遍历所有拆开的字符串
+            if i > j:  # 如果剧季信息为单独出现，则需要进行不太一样的操作（这段有点复杂）
+                for num in range(len(namelist)):
+                    del namelist[num][j]
+                i = i - 1  # 剔除季元信息后对其他关键文件名造成的影响
+                if k > j:
+                    k = k - 1
+            if i > k:
+                for num in range(len(namelist)):
+                    del namelist[num][k]
+                i = i - 1
+            if TV_name['SeriesName'] is None:
+                TV_name['SeriesName'] = ' '.join(namelist[0][:i])  # 无年份干扰
+            TV_name['SeriesName'], TV_name['SeriesYear'] = getTVFromTMDB_withskip(TV_name['SeriesName'], rootdir,
+                                                                                  tvname)
+            if TV_name['SeriesName'] == 'Skip':  # 跳过判断
+                return
+
+            if 'S' in namelist[0][i]:
+                TV_name['new'] = []
+                TV_Season = namelist[0][i][:3]  # 如果剧集分集上即能获取季元数据
+                for num in range(len(namelist)):
+                    TV_name['new'].append(".".join(namelist[num]))  # 记录新文件名
+                move_success(rootdir, tvname, TV_name, TV_Season)
+                return
+            else:
+                incorrect = ['ep', 'e', 'Ep']  # 列出所有不合理的关于E0x的命名方法
+                for each in incorrect:
+                    if each in namelist[0][i]:
+                        for num in range(len(namelist)):
+                            namelist[num][i] = namelist[num][i].replace(each, 'E')
+                # 如果子文件夹里的媒体文件不包含季度信息，则进入季元信息获取
+                if TV_Season == '':  # 若前面过程在剔除季元信息过程中获得了季信息则跳过
+                    TV_Season = get_Seasoninfo(tvname)
+
+                if TV_Season != None:  # 如果通过母文件夹名获取成功则直接利用季元信息
+                    incorrect = ['s']  # 列出所有不合理的关于S0x的命名方法
+                    for each in incorrect:
+                        TV_Season = TV_Season.replace(each, 'S')
+                else:
+                    print(tvname + '找不到对应信息，跳过......')
+                    return None
 
                 TV_name['new'] = []
                 for num in range(len(namelist)):

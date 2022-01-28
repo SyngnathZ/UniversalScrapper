@@ -78,6 +78,40 @@ def getTVFromTMDB(name, dir, tvlist):
             return name, 'UNKNOWN'  # 没搜到的情况
 
 
+def getTVFromTMDB_withskip(name, dir, tvlist):
+    TV_name = None
+    TV_year = None
+    tv = TV()
+    search = tv.search(name)  # 输入电影名查询
+
+    if len(search) == 1:  # 如果是唯一结果
+        for res in search:
+            return res.name, res.first_air_date[:4]
+    elif len(search) > 1:
+        # 如果有多个搜索结果，则首先尝试搜索nfo文件
+        from TVScrapper.tools.preprocess import find_diynfo
+        for each in os.listdir(os.path.join(dir, tvlist)):  # 获取二级目录下的视频文件
+            nfoext = ['.nfo']  # 利用nfo文件进行搜索
+            if each.endswith(tuple(nfoext)):  # 获取二级目录下的nfo文件
+                TV_name, TV_year = find_diynfo(os.path.join(dir, tvlist, each))
+                if TV_name is not None:
+                    return TV_name, TV_year
+
+        print(tvlist + '有多个结果，跳过......')
+        return 'Skip', 'Skip'
+    else:
+        # 如果有没有搜索结果，则首先尝试搜索nfo文件
+        from TVScrapper.tools.preprocess import find_diynfo
+        for each in os.listdir(os.path.join(dir, tvlist)):  # 获取二级目录下的视频文件
+            nfoext = ['.nfo']  # 利用nfo文件进行搜索
+            if each.endswith(tuple(nfoext)):  # 获取二级目录下的nfo文件
+                TV_name, TV_year = find_diynfo(os.path.join(dir, tvlist, each))
+                if TV_name is not None:
+                    return TV_name, TV_year
+        print('找不到该文件夹下的剧集信息，且没有nfo：' + tvlist + '，跳过......')
+        return 'Skip', 'Skip'
+
+
 def getMVFromIMDB(name, year):
     imdb = IMDb()
     search = imdb.search_movie(name)
