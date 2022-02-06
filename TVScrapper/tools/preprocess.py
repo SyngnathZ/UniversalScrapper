@@ -128,7 +128,10 @@ def find_adj_TVwithskip(filename, tvname, rootdir):  # 将人工处理的部分�
     namelist = []
     for each in filename:
         each = each.replace(' ', '.')  # 将所有空格替换成句点
-        namelist.append(each.split('.'))  # 首先用.进行分割
+        tmp = each.split('.')
+        tmp = [i for i in tmp if i != '']  # 去除空值
+        namelist.append(tmp)  # 首先用.进行分割
+
     # 将所有空格替换成点号
     TV_name = dict()
     TV_name['old'] = filename
