@@ -25,7 +25,7 @@ def incorrectformat_MV(dir, filename):
     movie = {'name': '', 'year': ''}  # 初始化一个字典便于后续处理
     dir2 = None
     namelist = []
-    namelist.append(filename.split('.'))  # 将文件名按照.符号进行分割
+    namelist.append(filename.replace(' ', '.').split('.'))  # 将文件名按照.符号进行分割
 
     if len(namelist[0][0].split(' ')) >= 2:  # 如果文件名的第一项用空格分割是个长度超过1的list，那么则可以认为该文件用空格分割
         namelist[0][0] = filename.split(' ')  # 将文件名按照空格进行分割
